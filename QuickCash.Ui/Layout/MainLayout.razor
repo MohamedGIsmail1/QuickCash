@@ -1,0 +1,22 @@
+﻿@inherits LayoutComponentBase
+
+<div class="qc-shell">
+    <aside class="qc-sidebar">
+        <NavMenu />
+    </aside>
+
+    <div class="qc-main">
+        <header class="qc-topbar border-bottom">
+            <div class="container-fluid py-2 px-3 d-flex align-items-center justify-content-between">
+                <div class="fw-semibold">QuickCash</div>
+                <div class="text-muted small">Blazor WASM • ASP.NET Core API • SQLite</div>
+            </div>
+        </header>
+
+        <main class="qc-content">
+            <div class="container py-4">
+                @Body
+            </div>
+        </main>
+    </div>
+</div>

@@ -1,0 +1,52 @@
+﻿@page "/"
+
+<div class="d-flex align-items-center justify-content-between mb-3">
+    <h2 class="m-0">Welcome</h2>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">QuickCash</h5>
+        <p class="text-muted mb-4">
+            A lightweight budgeting app built with Blazor WebAssembly, ASP.NET Core Web API, and SQLite.
+        </p>
+
+        <div class="row g-3">
+            <div class="col-12 col-md-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <div class="fw-semibold">Transactions</div>
+                        <div class="text-muted small mb-3">Log income and expenses by month.</div>
+                        <a class="btn btn-outline-primary btn-sm" href="/transactions">Go to Transactions</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <div class="fw-semibold">Overview</div>
+                        <div class="text-muted small mb-3">View totals and net for a month.</div>
+                        <a class="btn btn-outline-primary btn-sm" href="/overview">Go to Overview</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <div class="fw-semibold">Categories</div>
+                        <div class="text-muted small mb-3">Manage Income and Expense categories.</div>
+                        <a class="btn btn-outline-primary btn-sm" href="/categories">Go to Categories</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <hr class="my-4" />
+
+        <div class="text-muted small">
+            Tip: Start by creating categories, then add transactions, then check the overview.
+        </div>
+    </div>
+</div>

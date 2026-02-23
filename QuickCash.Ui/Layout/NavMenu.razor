@@ -1,0 +1,39 @@
+﻿<div class="sidebar-header px-3 py-3 border-bottom">
+    <div class="d-flex align-items-center justify-content-between">
+        <a class="navbar-brand m-0 fw-semibold" href="">QuickCash</a>
+
+        <button class="navbar-toggler d-md-none" title="Navigation menu" @onclick="ToggleNavMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+</div>
+
+<div class="@NavMenuCssClass sidebar-nav">
+    <nav class="nav flex-column py-2">
+        <div class="nav-item">
+            <NavLink class="nav-link px-3" href="transactions" Match="NavLinkMatch.All">
+                Transactions
+            </NavLink>
+        </div>
+
+        <div class="nav-item">
+            <NavLink class="nav-link px-3" href="overview">
+                Overview
+            </NavLink>
+        </div>
+
+        <div class="nav-item">
+            <NavLink class="nav-link px-3" href="categories">
+                Categories
+            </NavLink>
+        </div>
+    </nav>
+</div>
+
+@code {
+    private bool collapseNavMenu = true;
+
+    private string NavMenuCssClass => collapseNavMenu ? "collapse d-md-block" : "d-md-block";
+
+    private void ToggleNavMenu() => collapseNavMenu = !collapseNavMenu;
+}

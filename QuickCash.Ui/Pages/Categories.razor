@@ -1,0 +1,154 @@
+@page "/categories"
+@using QuickCash.Ui.Api.Models
+@using QuickCash.Ui.Api.Services
+@inject CategoriesApi Api
+
+<div class="d-flex align-items-center justify-content-between mb-3">
+    <h2 class="m-0">Categories</h2>
+</div>
+
+@if (!string.IsNullOrWhiteSpace(Error))
+{
+    <div class="alert alert-danger">@Error</div>
+}
+
+@if (IsLoading)
+{
+    <div class="text-muted">Loading…</div>
+}
+else if (Items.Count == 0)
+{
+    <div class="text-muted">No categories yet.</div>
+}
+else
+{
+    <div class="card">
+        <div class="card-body">
+            <table class="table table-striped table-hover align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th class="text-end"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var c in Items)
+                    {
+                        <tr>
+                            <td class="fw-semibold">@c.Name</td>
+                            <td>
+                                <span class="badge @(c.Type == 1 ? "bg-success" : "bg-danger")">
+                                    @(c.Type == 1 ? "Income" : "Expense")
+                                </span>
+                            </td>
+                            <td class="text-end">
+                                <button class="btn btn-sm btn-outline-danger" @onclick="() => Delete(c.Id)">
+                                    Delete
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
+
+<div class="card mt-4">
+    <div class="card-body">
+        <h5 class="card-title mb-3">Add category</h5>
+
+        <div class="row g-3 align-items-end">
+            <div class="col-12 col-md-5">
+                <label class="form-label">Name</label>
+                <input class="form-control" @bind="NewName" />
+            </div>
+
+            <div class="col-12 col-md-4">
+                <label class="form-label">Type</label>
+                <select class="form-select" @bind="NewType">
+                    <option value="0">-- select --</option>
+                    <option value="1">Income</option>
+                    <option value="2">Expense</option>
+                </select>
+            </div>
+
+            <div class="col-12 col-md-3">
+                <button class="btn btn-primary w-100" @onclick="Create">Create</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private bool IsLoading { get; set; }
+    private string? Error { get; set; }
+    private List<CategoryDto> Items { get; set; } = new();
+
+    private string NewName { get; set; } = "";
+    private int NewType { get; set; } = 0;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Load();
+    }
+
+    private async Task Load()
+    {
+        Error = null;
+        IsLoading = true;
+
+        try
+        {
+            Items = await Api.GetAllAsync();
+        }
+        catch (Exception ex)
+        {
+            Error = ex.Message;
+            Items = new();
+        }
+        finally
+        {
+            IsLoading = false;
+        }
+    }
+
+    private async Task Create()
+    {
+        Error = null;
+
+        try
+        {
+            await Api.CreateAsync(new CreateCategoryRequest
+            {
+                Name = NewName,
+                Type = NewType
+            });
+
+            NewName = "";
+            NewType = 0;
+
+            await Load();
+        }
+        catch (Exception ex)
+        {
+            Error = ex.Message;
+        }
+    }
+
+    private async Task Delete(int id)
+    {
+        Error = null;
+
+        try
+        {
+            await Api.DeleteAsync(id);
+            await Load();
+        }
+        catch (Exception ex)
+        {
+            Error = ex.Message;
+        }
+    }
+}
